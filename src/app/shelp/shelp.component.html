@@ -1,0 +1,167 @@
+ <!-- Main Content - This will go inside your router-outlet -->
+  <div class="help-container">
+    <!-- Help Header -->
+    <div class="help-header">
+      <h1>Customer Help</h1>
+      <p>Find answers to your questions and learn how to make the most of our platform</p>
+    </div>
+
+    <!-- Help Topics -->
+    <div class="help-topics">
+      <div class="topic-card">
+        <div class="topic-image">
+          <img src="https://img.freepik.com/free-vector/business-team-discussing-ideas-startup_74855-4380.jpg?w=1380&t=st=1715254879~exp=1715255479~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Getting Started">
+        </div>
+        <div class="topic-content">
+          <h3>Getting Started</h3>
+          <p>Learn the basics of using our customer portal and discover key features</p>
+          <a (click)="scrollToSection('getting-started')" class="topic-link">Learn more <i class="bi bi-arrow-right"></i></a>
+          <!-- <a href="#" class="topic-link">Learn more <i class="bi bi-arrow-right"></i></a> -->
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-image">
+          <img src="https://img.freepik.com/free-vector/order-tracking-concept-illustration_114360-1395.jpg?w=740&t=st=1715254922~exp=1715255522~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Orders & Deliveries">
+        </div>
+        <div class="topic-content">
+          <h3>Orders & Deliveries</h3>
+          <p>Track your orders and manage deliveries with our easy-to-use system</p>
+          <a (click)="scrollToSection('managing-orders')" class="topic-link">Learn more <i class="bi bi-arrow-right"></i></a>
+          <!-- <a href="#" class="topic-link">Learn more <i class="bi bi-arrow-right"></i></a> -->
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-image">
+          <img src="https://img.freepik.com/free-vector/finance-financial-performance-concept-illustration_53876-40450.jpg?w=740&t=st=1715254953~exp=1715255553~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Financial Information">
+        </div>
+        <div class="topic-content">
+          <h3>Financial Information</h3>
+          <p>Access and understand your invoices, payments, and financial documents</p>
+          <a (click)="scrollToSection('financial-information')" class="topic-link">Learn more <i class="bi bi-arrow-right"></i></a>
+          <!-- <a href="#" class="topic-link">Learn more <i class="bi bi-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform Overview Section -->
+    <div class="help-section" id="getting-started">
+      <h2 class="section-title">Getting Started</h2>
+      
+      <div class="content-with-image">
+        <div class="content-part">
+          <h3>Customer Portal Features</h3>
+          <p>Our customer portal provides you with all the tools you need to manage your orders, track deliveries, and handle your financial information in one place.</p>
+          <p>The intuitive dashboard gives you quick access to all your important information and recent activities.</p>
+          <button class="btn" (click)="goToDashboard()">Explore Features</button>
+
+          <!-- <a routerlink="/dashboard" > <button class="btn">Explore Features</button></a> -->
+        </div>
+        <div class="image-part">
+          <img src="https://img.freepik.com/free-vector/dashboard-concept-illustration_114360-4347.jpg?w=740&t=st=1715255010~exp=1715255610~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Dashboard Features">
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="help-section" id="managing-orders">
+      <h2 class="section-title">Managing Orders</h2>
+      
+      <div class="content-with-image image-right">
+        <div class="content-part">
+          <h3>Sales Order Management</h3>
+          <p>Our sales order system allows you to view all your orders in one place. You can check order status, details, and history with just a few clicks.</p>
+          <p>The system provides real-time updates so you always know exactly where your order stands.</p>
+          <a class="btn" (click)="goToSalesOrder()">View Order Guide</a>
+          <!-- <a href="#" class="btn">View Order Guide</a> -->
+        </div>
+        <div class="image-part">
+          <img src="https://img.freepik.com/free-vector/order-management-abstract-concept-vector-illustration-order-management-system-ecommerce-solution-shopping-cart-inventory-control-customer-service-retail-marketing-strategy-abstract-metaphor_335657-1753.jpg?w=740&t=st=1715255064~exp=1715255664~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Sales Order Management">
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Section -->
+    <div class="help-section" id="financial-information">
+      <h2 class="section-title">Tracking Deliveries</h2>
+      
+      <div class="content-with-image">
+        <div class="content-part">
+          <h3>Delivery Tracking System</h3>
+          <p>Our delivery tracking system gives you complete visibility into your shipments. Track packages in real-time and receive notifications about delivery status changes.</p>
+          <p>Access detailed information about each delivery including estimated arrival times and delivery confirmation.</p>
+          <a class="btn" (click)="goToDeliveries()">Learn About Tracking</a>
+          <!-- <a href="#" class="btn">Learn About Tracking</a> -->
+        </div>
+        <div class="image-part">
+          <img src="https://img.freepik.com/free-vector/delivery-service-illustrated_23-2148505081.jpg?w=740&t=st=1715255106~exp=1715255706~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Delivery Tracking">
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Section -->
+    <div class="help-section">
+      <h2 class="section-title">Financial Information</h2>
+      
+      <div class="content-with-image image-right">
+        <div class="content-part">
+          <h3>Managing Your Finances</h3>
+          <p>Our financial dashboard provides a comprehensive view of your account status. Access invoices, payment history, credit notes, and aging reports all in one place.</p>
+          <p>Download financial documents for your records or share them with your accounting department.</p>
+          <a href="#" class="btn">Financial Guide</a>
+        </div>
+        <div class="image-part">
+          <img src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-financial-operations_1150-41782.jpg?w=740&t=st=1715255151~exp=1715255751~hmac=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" alt="Financial Management">
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="help-section">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question"  (click)="toggleFAQ(0)">
+            How do I update my profile information?
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>To update your profile information, navigate to the Profile section from the sidebar menu. Click on the Edit button next to the information you wish to update, make your changes, and click Save.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question"  (click)="toggleFAQ(1)">
+            How can I track my delivery status?
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You can track your delivery status by clicking on "List of Deliveries" in the sidebar menu. This will show all your current and past deliveries. Click on any delivery to see detailed tracking information.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question"  (click)="toggleFAQ(2)">
+            How do I download my invoices?
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>To download your invoices, go to the "Customer Financial Sheet" section in the sidebar and select "Invoice". Find the invoice you want to download and click on the download icon.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question"  (click)="toggleFAQ(3)">
+            What should I do if I forgot my password?
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>If you forgot your password, click on the "Forgot Password?" link on the login page. Enter your registered email address, and we'll send you instructions to reset your password.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    

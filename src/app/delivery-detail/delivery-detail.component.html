@@ -1,0 +1,211 @@
+<div class="inquiry-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading delivery details...</p>
+  </div>
+
+  <!-- Delivery Details -->
+  <div *ngIf="!loading && deliveryData" class="inquiry-detail-content">
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="header-content">
+        <button class="back-btn" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to Deliveries</span>
+        </button>
+        <div class="header-info">
+          <h1>Delivery Details</h1>
+          <div class="inquiry-id">
+            <i class="bi bi-truck"></i>
+            <span>{{ deliveryData.VBELN }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-badge">
+        <span class="status" [ngClass]="getStatusClass(deliveryData.GBSTK)">
+          {{ getStatusText(deliveryData.GBSTK) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+        <div class="card-content">
+          <h3>Delivery Date</h3>
+          <p>{{ formatDate(deliveryData.LFDAT) }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-box"></i>
+        </div>
+        <div class="card-content">
+          <h3>Delivery Type</h3>
+          <p>{{ deliveryData.LFART || 'Standard' }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-currency-dollar"></i>
+        </div>
+        <div class="card-content">
+          <h3>Net Value</h3>
+          <p>{{ formatCurrency(deliveryData.NETWR, deliveryData.WAERK) }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-geo-alt"></i>
+        </div>
+        <div class="card-content">
+          <h3>Plant</h3>
+          <p>{{ deliveryData.WERKS || 'N/A' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Information Sections -->
+    <div class="detail-sections">
+      <!-- Document Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-file-earmark-text"></i>
+            Document Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Delivery Document</label>
+              <span>{{ deliveryData.VBELN || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Delivery Item</label>
+              <span>{{ deliveryData.POSNR || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Delivery Type</label>
+              <span>{{ deliveryData.LFART || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Processing Status</label>
+              <span class="status" [ngClass]="getStatusClass(deliveryData.GBSTK)">
+                {{ getStatusText(deliveryData.GBSTK) }}
+              </span>
+            </div>
+            <div class="info-item">
+              <label>Delivery Date</label>
+              <span>{{ formatDate(deliveryData.LFDAT) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-box-seam"></i>
+            Product Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item full-width">
+              <label>Material Name</label>
+              <span>{{ deliveryData.ARKTX || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Material Number</label>
+              <span>{{ deliveryData.MATNR || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Sales Unit</label>
+              <span>{{ deliveryData.VRKME || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-currency-exchange"></i>
+            Financial Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Net Value</label>
+              <span class="financial-value">{{ formatCurrency(deliveryData.NETWR, deliveryData.WAERK) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Currency</label>
+              <span>{{ deliveryData.WAERK || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-geo-alt"></i>
+            Location Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Plant</label>
+              <span>{{ deliveryData.WERKS || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Storage Location</label>
+              <span>{{ deliveryData.LGORT || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Shipping Point</label>
+              <span>{{ deliveryData.VSTEL || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+        Back to List
+      </button>
+      <button class="btn btn-primary" onclick="window.print()">
+        <i class="bi bi-printer"></i>
+        Print Details
+      </button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && !deliveryData" class="error-state">
+    <i class="bi bi-exclamation-triangle"></i>
+    <h3>Delivery Not Found</h3>
+    <p>The requested delivery details could not be loaded.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back to Deliveries
+    </button>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<!-- About Component with Enhanced Design -->
+<div class="about-container">
+
+
+  <!-- About Content -->
+
+    <!-- Hero Section -->
+    <div class="profile-header">
+      <h1>Customer Help</h1>
+      <p>Find answers to your questions and learn how to make the most of our platform</p>
+    </div>
+
+    <!-- Company Description Section -->
+    <section class="company-section">
+      <div class="section-container">
+        <div class="content-grid">
+          <div class="content-text">
+            <h2>What We Do</h2>
+            <p class="lead-text">Our company specializes in creating cutting-edge digital solutions that help businesses thrive in today's competitive landscape. We combine technical expertise with creative thinking to deliver results that exceed expectations and drive sustainable growth for our clients.</p>
+            <div class="feature-list">
+              <div class="feature-item">
+                <i class="bi bi-check-circle"></i>
+                <span>Enterprise-grade solutions</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check-circle"></i>
+                <span>24/7 customer support</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check-circle"></i>
+                <span>Scalable architecture</span>
+              </div>
+            </div>
+            
+          </div>
+          <div class="content-visual">
+            <div class="visual-card">
+              <img src ="https://media.istockphoto.com/id/1357904539/vector/business-team-brainstorm.jpg?s=612x612&w=0&k=20&c=YDsISgzkmbg18XNZOq5L11PBHjl3MePvoqBNv9Tw7jk=">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section class="vision-mission-section">
+      <div class="section-container">
+        <h2 class="section-title">Our Vision & Mission</h2>
+        <div class="vm-grid">
+          <div class="vm-card vision-card">
+            <h3>Our Vision</h3>
+            <p>To be the leading innovator in digital solutions, recognized globally for our commitment to excellence, creativity, and transformative impact on businesses and communities.</p>
+          </div>
+          <div class="vm-card mission-card">
+            <h3>Our Mission</h3>
+            <p>To empower organizations through innovative technology solutions that solve complex problems, enhance efficiency, and drive sustainable growth while maintaining the highest standards of quality and customer satisfaction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="values-section">
+      <div class="section-container">
+        <h2 class="section-title">Our Core Values</h2>
+        <div class="values-grid">
+          <div class="value-card" *ngFor="let value of coreValues; let i = index" [style.animation-delay.ms]="i * 200">
+            <div class="value-icon">
+              <i class="bi" [ngClass]="value.icon"></i>
+            </div>
+            <h3>{{ value.title }}</h3>
+            <p>{{ value.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Our Key Features</h2>
+          <p class="section-subtitle">What makes us different from others in the market? Here are some of our standout qualities that set us apart from the competition.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card" *ngFor="let feature of features; let i = index" [style.animation-delay.ms]="i * 150">
+            <div class="feature-icon">
+              <i class="bi" [ngClass]="feature.icon"></i>
+            </div>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+            <div class="feature-highlight"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>

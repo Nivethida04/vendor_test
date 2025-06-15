@@ -1,0 +1,613 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  overflow-x: hidden;
+}
+
+:root {
+  --transition: all 0.3s ease;
+  --primary: #b82121;
+  --primary-hover: #891414;
+  --white: #ffffff;
+  --off-white: #f5f4f4;
+  --border-color: #e5e7eb;
+  --text-dark: #374151;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --radius-lg: 8px;
+  --spacing-lg: 1rem;
+  --spacing-xl: 2rem;
+  --navbar-height: 65px;
+}
+
+/* NAVBAR */
+.navbar {
+  background: linear-gradient(to right, #fefefe, #f5f4f4);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  padding: 12px 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 65px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.left-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.toggle-btn {
+  background: linear-gradient(135deg, var(--white) 0%, var(--off-white) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: var(--transition);
+}
+
+.toggle-btn:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  // color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.toggle-btn:hover::before {
+  left: 100%;
+}
+
+.company-logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.company-logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  max-height: 100%;
+  display: block;
+  transition: var(--transition);
+}
+
+.company-logo img:hover {
+  transform: scale(1.05);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  color: #333;
+  text-decoration: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.nav-icon:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 90px; /* Increased from 70px to 90px for better visibility */
+  background: linear-gradient(210deg, #b82121, #891414, #7a1010);
+  color: white;
+  padding: 24px 0;
+  height: calc(100vh - 65px);
+  position: fixed;
+  top: 65px;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  z-index: 999;
+}
+
+/* Expanded sidebar */
+.sidebar:not(.closed) {
+  width: 260px;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 6px 8px;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar a:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  transform: scale(1.02);
+  color: #fff;
+}
+
+.sidebar a.active {
+  background-color: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+.sidebar a i {
+  margin-right: 12px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+/* Hide text when sidebar is collapsed */
+.sidebar.closed a span:not(.icon-only) {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.sidebar.closed a {
+  justify-content: center;
+  padding: 12px 8px;
+  margin: 6px 4px;
+}
+
+.sidebar.closed a i {
+  margin-right: 0;
+}
+
+/* Tooltip for collapsed sidebar */
+.sidebar.closed a::after {
+  // content: attr(data-tooltip);
+  position: absolute;
+  left: 90px; /* Updated from 70px to 90px */
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.sidebar.closed a:hover::after {
+  opacity: 1;
+}
+
+/* Dropdown container */
+.dropdown {
+  margin: 10px 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  transition: var(--transition);
+  position: relative;
+}
+
+.dropdown:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dropdown-toggle::after {
+  content: none !important;
+}
+.dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.sidebar.closed .dropdown-toggle {
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+.sidebar.closed .dropdown-toggle span:not(.icon-only) {
+  display: none;
+}
+
+/* Hide dropdown arrow completely when sidebar is collapsed */
+.sidebar.closed .dropdown-toggle .arrow {
+  display: none !important;
+}
+
+/* Hide dropdown arrow in expanded state as well */
+.dropdown-toggle .arrow {
+  // display: none !important;
+  margin: 0px;
+}
+
+/* Ensure financial icon is visible when collapsed */
+.sidebar.closed .dropdown-toggle i {
+  margin-right: 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+/* Dropdown list */
+.dropdown.open .dropdown-list {
+  display: block !important;
+}
+
+.dropdown-list {
+  display: none;
+  transition: var(--transition);
+  list-style: none;
+  padding-left: 25px;
+  margin-top: 10px;
+}
+
+.sidebar.closed .dropdown-list {
+  display: none !important;
+}
+.dropdown-toggle i {
+  margin-right: 12px; /* Same as .sidebar a i */
+}
+
+.dropdown-toggle span {
+  flex-grow: 1;
+}
+
+.dropdown-list li {
+  margin: 5px 0;
+}
+
+.dropdown-list li a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.dropdown-list li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.dropdown-list li a i {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+
+/* Tooltip for collapsed dropdown */
+.sidebar.closed .dropdown::after {
+  // content: "Financial Sheet";
+  position: absolute;
+  left: 90px; /* Updated from 70px to 90px */
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.sidebar.closed .dropdown:hover::after {
+  opacity: 1;
+}
+.dropdown-toggle i {
+  margin-right: 12px;
+}
+
+/* Ensure the icon is visible in collapsed state */
+.sidebar.closed .dropdown-toggle i {
+  margin-right: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}
+
+/* Logout button */
+.logout {
+  margin: 30px 8px 15px;
+  padding: 0 8px;
+}
+
+.logout .btn {
+  padding: 12px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sidebar.closed .logout .btn {
+  padding: 12px 8px;
+}
+
+.sidebar.closed .logout .btn span:not(.icon-only) {
+  display: none;
+}
+
+.logout .btn:hover {
+  background-color: #f5c6cb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logout .btn i {
+  margin-right: 10px;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.sidebar.closed .logout .btn i {
+  margin-right: 0;
+}
+
+/* Tooltip for logout button */
+.sidebar.closed .logout .btn::after {
+  content: "Logout";
+  position: absolute;
+  left: 90px; /* Updated from 70px to 90px */
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.sidebar.closed .logout .btn:hover::after {
+  opacity: 1;
+}
+
+/* CONTENT */
+.content {
+  margin-left: 90px; /* Updated from 70px to 90px */
+  padding: 85px 30px 30px;
+  min-height: 100vh;
+  transition: var(--transition);
+  background-color: #e7e6e6;
+}
+
+/* Expanded content margin */
+.content.sidebar-expanded {
+  margin-left: 260px;
+}
+
+.main-landing {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-lg);
+  min-height: calc(100vh - var(--navbar-height) - var(--spacing-xl));
+  max-width: 100%;
+  margin: 0;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Mobile only links - hidden by default */
+.mobile-only-links {
+  display: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar:not(.closed) {
+    width: 240px;
+  }
+  
+  .content.sidebar-expanded {
+    margin-left: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 16px;
+  }
+  
+  .nav-icon span {
+    display: none;
+  }
+  
+  .nav-icon {
+    padding: 8px;
+  }
+  
+  /* Mobile sidebar behavior */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .sidebar:not(.closed) {
+    transform: translateX(0);
+    width: 280px;
+  }
+  
+  .content {
+    margin-left: 0;
+    padding: 85px 20px 20px;
+  }
+  
+  .content.sidebar-expanded {
+    margin-left: 0;
+  }
+  
+  /* Show mobile links */
+  .mobile-only-links {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--border-color);
+    padding: 12px;
+    gap: 1rem;
+    justify-content: space-around;
+    z-index: 1000;
+  }
+  
+  .mobile-only-links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.75rem;
+    padding: 8px;
+    border-radius: 6px;
+    transition: var(--transition);
+  }
+  
+  .mobile-only-links a:hover,
+  .mobile-only-links a.active {
+    color: var(--primary);
+    background-color: rgba(184, 33, 33, 0.1);
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar:not(.closed) {
+    width: 85%;
+  }
+  
+  .content {
+    padding: 85px 15px 15px;
+  }
+  
+  .main-landing {
+    padding: 20px 15px;
+  }
+}
+
+/* Mobile overlay */
+@media (max-width: 768px) {
+  .sidebar-overlay {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+  
+  .sidebar-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}

@@ -1,0 +1,94 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>Profile Information</h1>
+    <p>Manage your account details and preferences</p>
+  </div>
+  
+  <div class="profile-content">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-banner"></div>
+      <div class="profile-avatar">
+        <div class="profile-circle">
+          {{ getInitials() }}
+        </div>
+      </div>
+      <div class="profile-info">
+        <h2 class="profile-name">{{ name1 }}</h2>
+        <div class="profile-details">
+          <div class="detail-item">
+            <i class="bi bi-person-badge"></i>
+            <span>Customer ID: {{ customerId }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="bi bi-geo-alt"></i>
+            <span>{{ city }}</span>
+          </div>
+          <div class="user-status">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Active Customer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Information Cards -->
+    <div class="info-cards">
+      <!-- Personal Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <i class="bi bi-person-lines-fill"></i>
+          <h3>Personal Information</h3>
+        </div>
+        <div class="card-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Full Name</label>
+              <span>{{ name1 }}</span>
+            </div>
+            <div class="info-item">
+              <label>Customer ID</label>
+              <span>{{ customerId }}</span>
+            </div>
+            <div class="info-item">
+              <label>City</label>
+              <span>{{ city }}</span>
+            </div>
+            <div class="info-item">
+              <label>Postal Code</label>
+              <span>{{ postal_code }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <i class="bi bi-geo-alt-fill"></i>
+          <h3>Address Details</h3>
+        </div>
+        <div class="card-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>House Number</label>
+              <span>{{ street_house }}</span>
+            </div>
+            <div class="info-item">
+              <label>Address Number</label>
+              <span>{{ address_number }}</span>
+            </div>
+            <div class="info-item">
+              <label>Valid From</label>
+              <span>{{ Valid_from }}</span>
+            </div>
+            <div class="info-item">
+              <label>Valid To</label>
+              <span>{{ Valid_to }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

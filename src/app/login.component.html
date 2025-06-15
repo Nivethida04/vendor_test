@@ -1,0 +1,150 @@
+<!-- NAVBAR -->
+<nav class="navbar">
+  
+<div class="logo">
+   <div class="logo">KAAR TECH</div>
+</div>
+  <ul class="nav-links">
+    <li><a (click)="openAboutPopup()">About Us</a></li>
+    <li><a (click)="openContactPopup()">Contact Us</a></li>
+  </ul>
+</nav>
+<div class="auth-page">
+  <!-- Background slides -->
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+  
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-header">
+        <h2 class="auth-title">Customer Login</h2>
+        <p class="auth-subtitle">Welcome back! Please sign in to your account</p>
+      </div>
+      <form (ngSubmit)="login()" class="auth-form">
+        <div class="form-group">
+          <label for="customerId">Customer ID</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person"></i>
+            <input 
+              [(ngModel)]="customerId" 
+              name="customerId" 
+              type="text" 
+              placeholder="Enter your Customer ID" 
+              class="auth-input"
+              id="customerId">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock"></i>
+            <input 
+              [(ngModel)]="password" 
+              name="password" 
+              [type]="showPassword ? 'text' : 'password'" 
+              placeholder="Enter your password" 
+              class="auth-input"
+              id="password">
+          </div>
+        </div>
+
+        <button type="submit" class="auth-button">
+          <span>Sign In</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+        <div class="reset-options">
+          <a href="#" (click)="resetPassword()">Forgot Password?</a>
+          <a href="#" (click)="resetFields()">Reset Form</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- About Popup -->
+<div class="popup-overlay" [class.active]="showAboutPopup" (click)="closeAboutPopup()">
+  <div class="popup-content about-popup" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>About Us</h3>
+      <button class="close-btn" (click)="closeAboutPopup()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+    <div class="popup-body">
+      <div class="about-content">
+        <div class="company-info">
+          <h4>What We Do</h4>
+          <p>Our company specializes in creating cutting-edge digital solutions that help businesses thrive in today's competitive landscape. We combine technical expertise with creative thinking to deliver results that exceed expectations.</p>
+        </div>
+        
+        <div class="values-grid">
+          <div class="value-item">
+            <i class="bi bi-shield-check"></i>
+            <h5>Integrity</h5>
+            <p>We uphold the highest ethical standards in all our interactions.</p>
+          </div>
+          <div class="value-item">
+            <i class="bi bi-lightbulb"></i>
+            <h5>Innovation</h5>
+            <p>We embrace creativity and forward-thinking solutions.</p>
+          </div>
+          <div class="value-item">
+            <i class="bi bi-people"></i>
+            <h5>Collaboration</h5>
+            <p>We believe in the power of teamwork and partnership.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Popup -->
+<div class="popup-overlay" [class.active]="showContactPopup" (click)="closeContactPopup()">
+  <div class="popup-content contact-popup" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>Contact Us</h3>
+      <button class="close-btn" (click)="closeContactPopup()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+    <div class="popup-body">
+      <div class="contact-content">
+        <div class="contact-methods">
+          <div class="contact-item">
+            <i class="bi bi-telephone"></i>
+            <div>
+              <h5>Call Us</h5>
+              <a href="tel:+919876543210">+91 98765 43210</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="bi bi-envelope"></i>
+            <div>
+              <h5>Email</h5>
+              <a href="mailto:support@kaartech.com">supportkaartech.com</a>
+            </div>
+          </div>
+          <div class="contact-item" (click)="openMessagingApp()">
+            <i class="bi bi-chat-dots"></i>
+            <div>
+              <h5>Live Chat</h5>
+              <p>Available 9 AM – 6 PM IST</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-form">
+          <img
+            src="https://img.freepik.com/free-vector/customer-support-illustration_23-2148890148.jpg"
+            alt="Support"
+            class="contact-image"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

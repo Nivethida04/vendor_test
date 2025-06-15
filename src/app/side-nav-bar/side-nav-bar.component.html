@@ -1,0 +1,123 @@
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- Left Section -->
+    <div class="left-nav">
+      <button class="toggle-btn" (click)="toggleSidebar()" aria-label="Toggle Sidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <span class="company-logo">
+        <img src="https://kebs.ai/wp-content/uploads/2023/06/kaar-removebg-preview.png" alt="Company Logo" />
+      </span>
+    </div>
+
+    <!-- Right Section -->
+    <div class="nav-links">
+      <a routerLink="/shelp" title="Help" class="nav-icon">
+        <i class="bi bi-question-circle"></i> 
+        <span>Help</span>
+      </a>
+      <a routerLink="/about" title="About" class="nav-icon">
+        <i class="bi bi-info-circle"></i> 
+        <span>About</span>
+      </a>
+      <a routerLink="/contact" title="Contact" class="nav-icon">
+        <i class="bi bi-envelope"></i> 
+        <span>Contact</span>
+      </a>
+      <a routerLink="/profile" title="Profile" class="nav-icon">
+        <i class="bi bi-person-circle"></i> 
+        <span>Profile</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay" [class.show]="isSidebarOpen && isMobile()" (click)="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" [class.closed]="!isSidebarOpen">
+  <a routerLink="/profile" routerLinkActive="active" data-tooltip="Profile" (click)="handleLinkClick()">
+    <i class="bi bi-person"></i> 
+    <span>Profile</span>
+  </a>
+  
+  <a routerLink="/inquiry" routerLinkActive="active" data-tooltip="Inquiry" (click)="handleLinkClick()">
+    <i class="bi bi-search"></i> 
+    <span>Inquiry</span>
+  </a>
+  
+  <a routerLink="/sales-order" routerLinkActive="active" data-tooltip="Sales Order" (click)="handleLinkClick()">
+    <i class="bi bi-cart4"></i> 
+    <span>Sales Order</span>
+  </a>
+  
+  <a routerLink="/list-of-deliveries" routerLinkActive="active" data-tooltip="Deliveries" (click)="handleLinkClick()">
+    <i class="bi bi-truck"></i> 
+    <span>Deliveries</span>
+  </a>
+  
+  <a routerLink="/overall" routerLinkActive="active" data-tooltip="Sales Data" (click)="handleLinkClick()">
+    <i class="bi bi-bar-chart-line"></i> 
+    <span>Sales Data</span>
+  </a>
+
+  <!-- Dropdown -->
+  <div class="dropdown" [class.open]="isFinanceOpen || isFinanceRouteActive()">
+    <div class="dropdown-toggle" (click)="toggleFinanceDropdown()">
+      <i class="bi bi-cash-coin"></i>
+      <span>Financial Sheet</span>
+      <i class="bi bi-chevron-down arrow" [class.rotate]="isFinanceOpen || isFinanceRouteActive()"></i>
+    </div>
+
+    <ul class="dropdown-list">
+      <li>
+        <a routerLink="/invoice_data" routerLinkActive="active" (click)="handleLinkClick()">
+          <i class="bi bi-receipt"></i> Invoice
+        </a>
+      </li>
+      <li>
+        <a routerLink="/payage" routerLinkActive="active" (click)="handleLinkClick()">
+          <i class="bi bi-calendar-check"></i> Payments & Aging
+        </a>
+      </li>
+      <li>
+        <a routerLink="/credit-debit" routerLinkActive="active" (click)="handleLinkClick()">
+          <i class="bi bi-credit-card"></i> Credit & Debit
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Logout -->
+  <div class="logout">
+    <button class="btn" (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i> 
+      <span>Logout</span>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Only Links -->
+<div class="mobile-only-links">
+  <a routerLink="/shelp" routerLinkActive="active">
+    <i class="bi bi-question-circle"></i> 
+    <span>Help</span>
+  </a>
+  <a routerLink="/about" routerLinkActive="active">
+    <i class="bi bi-info-circle"></i> 
+    <span>About</span>
+  </a>
+  <a routerLink="/contact" routerLinkActive="active">
+    <i class="bi bi-envelope"></i> 
+    <span>Contact</span>
+  </a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content" [class.sidebar-expanded]="isSidebarOpen">
+  <div class="main-landing">
+    <router-outlet></router-outlet>
+  </div>
+</div>

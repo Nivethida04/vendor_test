@@ -1,0 +1,197 @@
+<div>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h2>Credit & Debit Memos</h2>
+    </div>
+    <div class="button-group">
+      <button
+        class="toggle-button"
+        [ngClass]="{
+          'active-credit': activeTable === 'credit',
+          'inactive': activeTable !== 'credit'
+        }"
+        (click)="showTable('credit')"
+      >
+        <i class="bi bi-plus-circle"></i>
+        Credit Memo
+      </button>
+      <button
+        class="toggle-button"
+        [ngClass]="{
+          'active-debit': activeTable === 'debit',
+          'inactive': activeTable !== 'debit'
+        }"
+        (click)="showTable('debit')"
+      >
+        <i class="bi bi-dash-circle"></i>
+        Debit Memo
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-plus-circle"></i>
+      </div>
+      <div class="card-content">
+        <h3>Credit Memos</h3>
+        <p class="card-value">{{ getCreditCount() }}</p>
+        <span class="card-label">Total credit memos</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-dash-circle"></i>
+      </div>
+      <div class="card-content">
+        <h3>Debit Memos</h3>
+        <p class="card-value">{{ getDebitCount() }}</p>
+        <span class="card-label">Total debit memos</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-currency-dollar"></i>
+      </div>
+      <div class="card-content">
+        <h3>Net Amount</h3>
+        <p class="card-value">{{ getNetAmount() | currency:'USD':'symbol':'1.0-0' }}</p>
+        <span class="card-label">Credit - Debit</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-calendar-month"></i>
+      </div>
+      <div class="card-content">
+        <h3>This Month</h3>
+        <p class="card-value">{{ getThisMonthCount() }}</p>
+        <span class="card-label">Recent memos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREDIT MEMO TABLE -->
+  <div *ngIf="activeTable === 'credit'">
+    <div class="search-export-container">
+        <div class="search-container">
+          <input 
+            id="search-input"
+            type="text" 
+            [(ngModel)]="searchText" 
+            (ngModelChange)="currentPage = 1" 
+            placeholder="Search credit memos..."
+          />
+          <button class="search-btn">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+
+        <div class="action-group">
+          <button class="action-btn" (click)="exportToPDF()" aria-label="Export data">
+            <i class="bi bi-download"></i>
+            <span>Export</span>
+          </button>
+        </div>
+          </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let header of headers; let i = index" (click)="sort(names[i])">
+              {{ header }}
+              <span class="sort-icon">
+                <ng-container *ngIf="key === names[i]">
+                  <i class="bi" [ngClass]="reverse ? 'bi-sort-down' : 'bi-sort-up'"></i>
+                </ng-container>
+                <ng-container *ngIf="key !== names[i]">
+                  <i class="bi bi-filter" style="opacity: 0.3;"></i>
+                </ng-container>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="paginatedData && paginatedData.length > 0; else noData">
+            <tr *ngFor="let row of paginatedData; let idx = index" class="clickable-row">
+              <td *ngFor="let col of names">
+                <ng-container *ngIf="col === 'status'; else normalCell">
+                  <span class="status" [ngClass]="'status-' + row[col].toLowerCase()">
+                    {{ row[col] }}
+                  </span>
+                </ng-container>
+                <ng-template #normalCell>
+                  {{ row[col] }}
+                </ng-template>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #noData>
+            <tr>
+              <td [attr.colspan]="headers.length" class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <p>No credit memo data found. Try adjusting your search criteria.</p>
+              </td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <div class="page-info">
+        Showing {{ getFirstItemIndex() }} to {{ getLastItemIndex() }} of {{ filteredData.length }} entries
+      </div>
+      <div class="page-controls">
+        <button class="page-btn" 
+                [disabled]="currentPage === 1" 
+                (click)="goToFirstPage()" 
+                aria-label="First page">
+          <i class="bi bi-chevron-double-left"></i>
+        </button>
+        <button class="page-btn" 
+                [disabled]="currentPage === 1" 
+                (click)="goToPreviousPage()" 
+                aria-label="Previous page">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <ng-container *ngFor="let page of getVisiblePages()">
+          <button *ngIf="page !== '...'" 
+                  class="page-btn" 
+                  [class.active]="currentPage === page" 
+                  (click)="goToPage(page)"
+                  [attr.aria-label]="'Page ' + page">
+            {{ page }}
+          </button>
+          <span *ngIf="page === '...'" class="page-ellipsis">...</span>
+        </ng-container>
+
+        <button class="page-btn" 
+                [disabled]="currentPage === totalPages" 
+                (click)="goToNextPage()" 
+                aria-label="Next page">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+        <button class="page-btn" 
+                [disabled]="currentPage === totalPages" 
+                (click)="goToLastPage()" 
+                aria-label="Last page">
+          <i class="bi bi-chevron-double-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEBIT MEMO TABLE -->
+  <div *ngIf="activeTable === 'debit'">
+    <app-credit></app-credit>
+  </div>
+</div>

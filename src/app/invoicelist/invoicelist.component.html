@@ -1,0 +1,179 @@
+<div class="invoice-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h2>Invoice Data</h2>
+    </div>
+    <div class="search-container">
+      <input 
+        id="search-input"
+        type="text" 
+        [(ngModel)]="searchText" 
+        (ngModelChange)="currentPage = 1" 
+        placeholder="Search invoices..."
+      />
+      <button class="search-btn">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-receipt"></i>
+      </div>
+      <div class="card-content">
+        <h3>Total Invoices</h3>
+        <p class="card-value">{{ INVOICE.length }}</p>
+        <span class="card-label">All time</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-calendar-month"></i>
+      </div>
+      <div class="card-content">
+        <h3>This Month</h3>
+        <p class="card-value">{{ getThisMonthCount() }}</p>
+        <span class="card-label">Recent invoices</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-download"></i>
+      </div>
+      <div class="card-content">
+        <h3>Downloads</h3>
+        <p class="card-value">{{ downloadCount }}</p>
+        <span class="card-label">Total downloads</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-file-earmark-pdf"></i>
+      </div>
+      <div class="card-content">
+        <h3>Available</h3>
+        <p class="card-value">{{ INVOICE.length }}</p>
+        <span class="card-label">Ready to download</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers; let i = index" 
+              (click)="sort(names[i])"
+              [attr.aria-sort]="getAriaSort(names[i])"
+              [attr.aria-label]="header + ' column, click to sort'">
+            {{ header }}
+            <span class="sort-icon">
+              <i class="bi" 
+                 [class.bi-sort-down]="key === names[i] && reverse"
+                 [class.bi-sort-up]="key === names[i] && !reverse"
+                 [class.bi-filter]="key !== names[i]">
+              </i>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="paginatedData.length > 0; else noData">
+          <tr *ngFor="let row of paginatedData">
+            <td>{{ row['VBELN'] }}</td>
+            <td>{{ row['FKDAT'] }}</td>
+            <td>{{ row['POSNR'] }}</td>
+            <td class="action-cell">
+              <div class="action-buttons">
+                <button class="preview-btn" (click)="previewPDF(row['VBELN'], row['POSNR'])" title="Preview Invoice">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button class="download-btn" (click)="downloadPDF(row['VBELN'], row['POSNR'])" title="Download Invoice">
+                  <i class="bi bi-download"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #noData>
+          <tr>
+            <td [attr.colspan]="headers.length" class="empty-state">
+              <i class="bi bi-inbox"></i>
+              <p>No invoice data found. Try adjusting your search criteria.</p>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <div class="page-info">
+      Showing {{ getFirstItemIndex() }} to {{ getLastItemIndex() }} of {{ filteredData.length }} entries
+    </div>
+    <div class="page-controls">
+      <button class="page-btn" [disabled]="currentPage === 1" (click)="goToFirstPage()" aria-label="First page">
+        <i class="bi bi-chevron-double-left"></i>
+      </button>
+      <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPreviousPage()" aria-label="Previous page">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <ng-container *ngFor="let page of getVisiblePages()">
+        <button *ngIf="page !== '...'" 
+                class="page-btn" 
+                [class.active]="currentPage === page" 
+                (click)="goToPage(page)" 
+                [attr.aria-label]="'Page ' + page">
+          {{ page }}
+        </button>
+        <span *ngIf="page === '...'" class="page-ellipsis">...</span>
+      </ng-container>
+
+      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToNextPage()" aria-label="Next page">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToLastPage()" aria-label="Last page">
+        <i class="bi bi-chevron-double-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div class="modal-overlay" [class.active]="showPreviewModal" (click)="closePreviewModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Invoice Preview</h3>
+        <button class="close-btn" (click)="closePreviewModal()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="preview-embed">
+        <iframe
+          *ngIf="previewDocument"
+          [src]="previewDocument"
+          width="100%"
+          height="500px"
+          frameborder="0"
+          type="application/pdf">
+        </iframe>
+        <p *ngIf="!previewDocument">Loading preview...</p>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closePreviewModal()">Close</button>
+        <button class="btn-primary" (click)="downloadCurrentPreview()">Download</button>
+      </div>
+    </div>
+  </div>
+</div>

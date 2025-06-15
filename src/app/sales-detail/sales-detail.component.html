@@ -1,0 +1,244 @@
+<div class="sales-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading sales order details...</p>
+  </div>
+
+  <!-- Sales Order Details -->
+  <div *ngIf="!loading && salesData" class="sales-detail-content">
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="header-content">
+        <button class="back-btn" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to Sales Orders</span>
+        </button>
+        <div class="header-info">
+          <h1>Sales Order Details</h1>
+          <div class="order-id">
+            <i class="bi bi-receipt"></i>
+            <span>{{ salesData.VBELN }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-badges">
+        <span class="status" [ngClass]="getStatusClass(salesData.GBSTK)">
+          {{ getStatusText(salesData.GBSTK) }}
+        </span>
+        <span class="status delivery-status" [ngClass]="getStatusClass(salesData.LFGSK)">
+          {{ getDeliveryStatusText(salesData.LFGSK) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+        <div class="card-content">
+          <h3>Order Date</h3>
+          <p>{{ formatDate(salesData.ERDAT) }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-box"></i>
+        </div>
+        <div class="card-content">
+          <h3>Quantity</h3>
+          <p>{{ formatNumber(salesData.KWMENG) }} {{ salesData.VRKME || '' }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-currency-dollar"></i>
+        </div>
+        <div class="card-content">
+          <h3>Net Value</h3>
+          <p>{{ formatCurrency(salesData.NETWR, salesData.WAERK) }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-truck"></i>
+        </div>
+        <div class="card-content">
+          <h3>Delivery Date</h3>
+          <p>{{ formatDate(salesData.VDATU) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Information Sections -->
+    <div class="detail-sections">
+      <!-- Document Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-file-earmark-text"></i>
+            Document Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Sales Document</label>
+              <span>{{ salesData.VBELN || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Sales Document Item</label>
+              <span>{{ salesData.POSNR || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Document Type</label>
+              <span>{{ salesData.AUART || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Creation Date</label>
+              <span>{{ formatDate(salesData.ERDAT) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Customer Reference</label>
+              <span>{{ salesData.BSTNK || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Division</label>
+              <span>{{ salesData.SPART || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-info-circle"></i>
+            Status Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Overall Processing Status</label>
+              <span class="status" [ngClass]="getStatusClass(salesData.GBSTK)">
+                {{ getStatusText(salesData.GBSTK) }}
+              </span>
+            </div>
+            <div class="info-item">
+              <label>Overall Delivery Status</label>
+              <span class="status" [ngClass]="getStatusClass(salesData.LFGSK)">
+                {{ getDeliveryStatusText(salesData.LFGSK) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-box-seam"></i>
+            Product Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item full-width">
+              <label>Material Name</label>
+              <span>{{ salesData.ARKTX || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Material Number</label>
+              <span>{{ salesData.MATNR || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Order Quantity</label>
+              <span>{{ formatNumber(salesData.KWMENG) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Sales Unit</label>
+              <span>{{ salesData.VRKME || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-currency-exchange"></i>
+            Financial Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Net Value</label>
+              <span class="financial-value">{{ formatCurrency(salesData.NETWR, salesData.WAERK) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Currency</label>
+              <span>{{ salesData.WAERK || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-truck"></i>
+            Delivery Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Requested Delivery Date</label>
+              <span>{{ formatDate(salesData.VDATU) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Delivery Status</label>
+              <span class="status" [ngClass]="getStatusClass(salesData.LFGSK)">
+                {{ getDeliveryStatusText(salesData.LFGSK) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+        Back to List
+      </button>
+      <button class="btn btn-primary" onclick="window.print()">
+        <i class="bi bi-printer"></i>
+        Print Details
+      </button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && !salesData" class="error-state">
+    <i class="bi bi-exclamation-triangle"></i>
+    <h3>Sales Order Not Found</h3>
+    <p>The requested sales order details could not be loaded.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back to Sales Orders
+    </button>
+  </div>
+</div>

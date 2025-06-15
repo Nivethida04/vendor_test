@@ -1,0 +1,70 @@
+<div class="contact-container">
+    <!-- Hero Section -->
+    <div class="profile-header">
+      <h1>How to reach us</h1>
+      <p>Whether you have a question about features, trials, pricing, or anything else, our team is ready to answer all your questions.</p>
+    </div>
+    <!-- Contact Methods -->
+    <section class="contact-methods">
+      <div class="section-container">
+        <div class="methods-grid">
+          <div class="method-card" *ngFor="let method of contactMethods; let i = index" [style.animation-delay.ms]="i * 200">
+            <div class="method-icon">
+              <i class="bi" [ngClass]="method.icon"></i>
+            </div>
+            <h3>{{ method.title }}</h3>
+            <p class="method-description">{{ method.description }}</p>
+            <div class="method-info">
+              <span class="method-value">{{ method.value }}</span>
+              <span class="method-availability" *ngIf="method.availability">{{ method.availability }}</span>
+            </div>
+            <button class="method-action" (click)="handleMethodAction(method.type)">
+              <span>{{ method.actionText }}</span>
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Office Information -->
+    <!-- <section class="office-section">
+      <div class="section-container">
+        <h2 class="section-title">Our Office</h2>
+        <div class="office-content">
+          <div class="office-info">
+            <div class="office-card">
+              <h3>Headquarters</h3>
+              <div class="office-details">
+                <div class="detail-item">
+                  <i class="bi bi-geo-alt"></i>
+                  <div>
+                    <strong>Address</strong>
+                    <p>123 Business District<br>Tech City, TC 12345<br>United States</p>
+                  </div>
+                </div>
+                <div class="detail-item">
+                  <i class="bi bi-clock"></i>
+                  <div>
+                    <strong>Business Hours</strong>
+                    <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: Closed <br>Sunday: 10:00 AM - 4:00 PM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="office-map">
+            <div class="map-placeholder">
+              <div class="map-content">
+                <i class="bi bi-geo-alt-fill"></i>
+                <h4>Visit Our Office</h4>
+                <p>We'd love to meet you in person. Schedule a visit to our headquarters.</p>
+                <button class="map-btn" (click)="scheduleVisit()">
+                  Schedule Visit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+</div>

@@ -1,0 +1,215 @@
+<div class="inquiry-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading inquiry details...</p>
+  </div>
+
+  <!-- Inquiry Details -->
+  <div *ngIf="!loading && inquiryData" class="inquiry-detail-content">
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="header-content">
+        <button class="back-btn" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to Inquiries</span>
+        </button>
+        <div class="header-info">
+          <h1>Inquiry Details</h1>
+          <div class="inquiry-id">
+            <i class="bi bi-file-text"></i>
+            <span>{{ inquiryData.VBELN }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-badge">
+        <span class="status" [ngClass]="getStatusClass(inquiryData.GBSTK)">
+          {{ getStatusText(inquiryData.GBSTK) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+        <div class="card-content">
+          <h3>Creation Date</h3>
+          <p>{{ formatDate(inquiryData.ERDAT) }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-person"></i>
+        </div>
+        <div class="card-content">
+          <h3>Created By</h3>
+          <p>{{ inquiryData.ERNAM || 'N/A' }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-building"></i>
+        </div>
+        <div class="card-content">
+          <h3>Organization</h3>
+          <p>{{ inquiryData.VKORG || 'N/A' }}</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon">
+          <i class="bi bi-box"></i>
+        </div>
+        <div class="card-content">
+          <h3>Quantity</h3>
+          <p>{{ formatNumber(inquiryData.KWMENG) }} {{ inquiryData.VRKME || '' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Information Sections -->
+    <div class="detail-sections">
+      <!-- Document Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-file-earmark-text"></i>
+            Document Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Sales Document</label>
+              <span>{{ inquiryData.VBELN || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Sales Item</label>
+              <span>{{ inquiryData.POSNR || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Processing Status</label>
+              <span class="status" [ngClass]="getStatusClass(inquiryData.GBSTK)">
+                {{ getStatusText(inquiryData.GBSTK) }}
+              </span>
+            </div>
+            <div class="info-item">
+              <label>Creation Date</label>
+              <span>{{ formatDate(inquiryData.ERDAT) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Created By</label>
+              <span>{{ inquiryData.ERNAM || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Organization Details -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-diagram-3"></i>
+            Organization Details
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Sales Organization</label>
+              <span>{{ inquiryData.VKORG || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Distribution Channel</label>
+              <span>{{ inquiryData.VTWEG || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Division</label>
+              <span>{{ inquiryData.SPART || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Information -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-box-seam"></i>
+            Product Information
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item full-width">
+              <label>Item Name</label>
+              <span>{{ inquiryData.ARKTX || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Material Number</label>
+              <span>{{ inquiryData.MATNR || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Order Quantity</label>
+              <span>{{ formatNumber(inquiryData.KWMENG) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Sales Unit</label>
+              <span>{{ inquiryData.VRKME || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validity Period -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2>
+            <i class="bi bi-calendar-range"></i>
+            Validity Period
+          </h2>
+        </div>
+        <div class="section-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Valid From</label>
+              <span>{{ formatDate(inquiryData.ANGDT) }}</span>
+            </div>
+            <div class="info-item">
+              <label>Valid Until</label>
+              <span>{{ formatDate(inquiryData.BNDDT) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+        Back to List
+      </button>
+      <button class="btn btn-primary" onclick="window.print()">
+        <i class="bi bi-printer"></i>
+        Print Details
+      </button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && !inquiryData" class="error-state">
+    <i class="bi bi-exclamation-triangle"></i>
+    <h3>Inquiry Not Found</h3>
+    <p>The requested inquiry details could not be loaded.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back to Inquiries
+    </button>
+  </div>
+</div>

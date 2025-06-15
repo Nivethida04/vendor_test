@@ -1,0 +1,159 @@
+<div >
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h2>Payment and Aging</h2>
+    </div>
+    <div class="search-container">
+      <input 
+        id="search-input"
+        type="text" 
+        [(ngModel)]="searchText" 
+        (ngModelChange)="currentPage = 1" 
+        placeholder="Search payments..."
+      />
+      <button class="search-btn">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-credit-card"></i>
+      </div>
+      <div class="card-content">
+        <h3>Total Payments</h3>
+        <p class="card-value">{{ PAYAGE.length }}</p>
+        <span class="card-label">All time</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-calendar-check"></i>
+      </div>
+      <div class="card-content">
+        <h3>This Month</h3>
+        <p class="card-value">{{ getThisMonthCount() }}</p>
+        <span class="card-label">Recent payments</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-clock-history"></i>
+      </div>
+      <div class="card-content">
+        <h3>Aging Items</h3>
+        <p class="card-value">{{ getAgingCount() }}</p>
+        <span class="card-label">Overdue payments</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">
+        <i class="bi bi-currency-dollar"></i>
+      </div>
+      <div class="card-content">
+        <h3>Total Value</h3>
+        <p class="card-value">{{ getTotalValue() | currency:'USD':'symbol':'1.0-0' }}</p>
+        <span class="card-label">Net worth</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers; let i = index" (click)="sort(names[i])">
+            {{ header }}
+            <span class="sort-icon">
+              <ng-container *ngIf="key === names[i]">
+                <i class="bi" [ngClass]="reverse ? 'bi-sort-down' : 'bi-sort-up'"></i>
+              </ng-container>
+              <ng-container *ngIf="key !== names[i]">
+                <i class="bi bi-filter" style="opacity: 0.3;"></i>
+              </ng-container>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="paginatedData && paginatedData.length > 0; else noData">
+          <tr *ngFor="let row of paginatedData; let idx = index" class="clickable-row">
+            <td *ngFor="let col of names">
+              <ng-container *ngIf="col === 'PAYMENT_STATUS'; else normalCell">
+                <span class="status" [ngClass]="getStatusClass(row[col])">
+                  {{ row[col] }}
+                </span>
+              </ng-container>
+              <ng-template #normalCell>
+                {{ row[col] }}
+              </ng-template>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #noData>
+          <tr>
+            <td [attr.colspan]="headers.length" class="empty-state">
+              <i class="bi bi-inbox"></i>
+              <p>No payment data found. Try adjusting your search criteria.</p>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <!-- Pagination -->
+<div class="pagination" *ngIf="totalPages > 1">
+  <div class="page-info">
+    Showing {{ getFirstItemIndex() }} to {{ getLastItemIndex() }} of {{ filteredData.length }} entries
+  </div>
+  <div class="page-controls">
+    <button class="page-btn" 
+            [disabled]="currentPage === 1" 
+            (click)="goToFirstPage()" 
+            aria-label="First page">
+      <i class="bi bi-chevron-double-left"></i>
+    </button>
+    <button class="page-btn" 
+            [disabled]="currentPage === 1" 
+            (click)="goToPreviousPage()" 
+            aria-label="Previous page">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <ng-container *ngFor="let page of getVisiblePages()">
+      <button *ngIf="page !== '...'" 
+              class="page-btn" 
+              [class.active]="currentPage === page" 
+              (click)="goToPage(page)"
+              [attr.aria-label]="'Page ' + page">
+        {{ page }}
+      </button>
+      <span *ngIf="page === '...'" class="page-ellipsis">...</span>
+    </ng-container>
+
+    <button class="page-btn" 
+            [disabled]="currentPage === totalPages" 
+            (click)="goToNextPage()" 
+            aria-label="Next page">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+    <button class="page-btn" 
+            [disabled]="currentPage === totalPages" 
+            (click)="goToLastPage()" 
+            aria-label="Last page">
+      <i class="bi bi-chevron-double-right"></i>
+    </button>
+  </div>
+</div>
+
+</div>
